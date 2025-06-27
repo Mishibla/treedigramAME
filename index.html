@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Equipment Tree</title>
+  <style>
+    ul {
+      list-style-type: none;
+      margin-left: 20px;
+      padding-left: 10px;
+      border-left: 1px dotted #ccc;
+    }
+    li {
+      cursor: pointer;
+      margin: 4px 0;
+    }
+    .collapsed > ul {
+      display: none;
+    }
+    .node::before {
+      content: "▶";
+      display: inline-block;
+      margin-right: 6px;
+      font-size: 10px;
+    }
+    .expanded > .node::before {
+      content: "▼";
+    }
+  </style>
+</head>
+<body>
+
+<h2>📚 Equipment Topic Tree</h2>
+<div id="treeContainer"></div>
+
+<script>
+  const jsonData = {
+    "Asset Group": {
+      "TLF": {
+        "USB": {
+            "USB":{},
+            "Hydraulic Winch":{}
+        },
+                "LSB": {
+            "LSB":{},
+            "Flow Head Collar Insert":{},
+            "Upper Flow Head Collar":{},
+            "Lower Flow Head Collar":{},
+            "SFT Rotational Restraint Brackets":{},
+            "LSB Sleeve":{}
+        },
+                "USB": {
+            "USB":{},
+            "Hydraulic Winch":{}
+        },
+                "USB": {
+            "USB":{},
+            "Hydraulic Winch":{}
+        },
+                "USB": {
+            "USB":{},
+            "Hydraulic Winch":{}
+        },
+        "HPU": {
+            "HPU":{},
+            "Wireless/Wired Remote Controller":{},
+            "Hydraulic Control Panel":{}
+        },
+        "USB Table":{
+            "USB Table":{}
+        },
+        "Layover Arches":{
+            "Layover Arch":{}
+        },
+        "Bails":{
+            "Bails":{},
+            "Bails Extension":{}
+        },
+        "Dolly Guide Frames":{
+            "Dolly Guide Frame Base Frame":{}
+        }
+      },
+      "Immobilis": {
+        "Variables and Expressions": {},
+        "Equations and Inequalities": {},
+        "Polynomials": {
+          "Child Node": {},
+          "Sibling Node": {}
+        },
+        "Factoring": {},
+        "Functions": {}
+      },
+      "Colossus": {
+        "Points, Lines, and Planes": {},
+        "Angles and Polygons": {},
+
+      },
+      "Superbails": {
+        "Trigonometric Functions": {},
+        "Right Triangle Trigonometry": {},
+
+      },
+      "Workshops": {
+        "Limits and Continuity": {},
+        "Derivatives": {},
+
+      },
+      "CT Equipment": {
+        "Descriptive Statistics": {},
+        "Probability Distributions": {},
+
+      }
+    }
+  };
+
+  function buildTree(data) {
+    const ul = document.createElement("ul");
+
+    for (const key in data) {
+      const li = document.createElement("li");
+      const hasChildren = Object.keys(data[key]).length > 0;
+
+      if (hasChildren) {
+        li.classList.add("collapsed");
+        const span = document.createElement("span");
+        span.classList.add("node");
+        span.textContent = key;
+        span.onclick = () => {
+        li.classList.toggle("expanded");
+        li.classList.toggle("collapsed");
+        };
+        li.appendChild(span);
+        li.appendChild(buildTree(data[key]));
+      } else {
+        li.textContent = key;
+      }
+
+      ul.appendChild(li);
+    }
+
+    return ul;
+  }
+
+  document.getElementById("treeContainer").appendChild(buildTree(jsonData));
+</script>
+
+</body>
+</html>
